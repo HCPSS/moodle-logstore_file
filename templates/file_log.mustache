@@ -1,0 +1,74 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template logstore_file/file_log
+
+    Template which defines a line in the file logstore.
+
+    Classes required for JS:
+    * none
+
+    Data attributes required for JS:
+    * none
+
+    Context variables required for this template:
+    * eventname 
+    * component
+    * action
+    * target
+    * objecttable
+    * objectid
+    * crud
+    * edulevel
+    * contextid
+    * contextlevel
+    * contextinstanceid
+    * userid
+    * courseid
+    * relateduserid
+    * anonymous
+    * other
+    * timecreated
+    * origin
+    * ip
+    * realuserid
+
+    Example context (json):
+    {
+        "eventname": "\core\event\calendar_event_created",
+        "component": "core",
+        "action": "created",
+        "target": "calendar_event",
+        "objecttable": "event",
+        "objectid": 38464700,
+        "crud": "c",
+        "edulevel": 0,
+        "contextid": 17791,
+        "contextlevel": 50,
+        "contextinstanceid": 178,
+        "userid": 2,
+        "courseid": 178,
+        "relateduserid": null,
+        "anonymous": 0,
+        "other": "a:3:{s:8:"repeatid";i:38464579;s:9:"timestart";i:1510226700;s:4:"name";s:18:"Parent Conferences";}",
+        "timecreated": 1484664029,
+        "origin": "cli",
+        "ip": "172.210.200.1",
+        "realuserid": null
+    }
+}}
+{{ timecreated }}: { "eventname": "{{ eventname }}", "component": "{{ component }}", "action": "{{ action }}", "target": "{{ target }}", "objecttable": "{{ objecttable }}", "objectid": {{#objectid}}{{ objectid }}{{/objectid}}{{#objectid}}null{{/objectid}}, "crud": "{{ crud }}", "edulevel": {{ edulevel }}, "contextid": {{ contextid }}, "contextlevel": {{ contextlevel }}, "contextinstanceid": {{ contextinstanceid }}, "userid": {{ userid }}, "courseid": {{ courseid }}, {{#relateduserid}}"relateduserid": {{ relateduserid }}{{/relateduserid}}{{^relateduserid}}"relateduserid": null{{/relateduserid}}, "anonymous": {{ anonymous }}, "other": "{{{ other }}}", "timecreated": {{ timecreated }}, "origin": "{{ origin }}", "ip": "{{ ip }}", {{#realuserid}}"realuserid": {{ realuserid }}{{/realuserid}}{{^realuserid}}"realuserid": null{{/realuserid}} }

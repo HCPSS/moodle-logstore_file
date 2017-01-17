@@ -1,0 +1,10 @@
+{
+    "name": "HCPSS/moodle-logstore_file",
+    "type": "moodle-format",
+    "require": {
+        "composer/installers": "~1.0"
+    },
+    "extra": {
+        "installer-name": "file"
+    }
+}
