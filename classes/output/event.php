@@ -1,4 +1,5 @@
 <?php
+
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -40,6 +41,20 @@ defined('MOODLE_INTERNAL') || die();
 class event implements \renderable, \templatable {
 
     /**
+     * Format as HTML.
+     *
+     * @var integer
+     */
+    const FORMAT_HTML = 0;
+
+    /**
+     * Format as JSON.
+     *
+     * @var integer
+     */
+    const FORMAT_JSON = 1;
+
+    /**
      * The event.
      *
      * @var baseevent
@@ -61,16 +76,35 @@ class event implements \renderable, \templatable {
      *
      * @param \mod_forum_renderer $renderer The render to be used for formatting
      *   the message and attachments
+     * @param int $format The format the template is in. Use one of the class
+     *   constants FORMAT_XXXX.
      * @return \stdClass Data ready for use in a mustache template
      */
-    public function export_for_template(\renderer_base $output) {
-        $log = (object) $this->event->get_data();
+    public function export_for_template(\renderer_base $output, $format = self::FORMAT_HTML) {
+        $data = $this->event->get_data();
 
-        $log->eventname = str_replace('\\', '\\\\', $log->eventname);
-        $log->other = serialize($log->other);
-        $log->origin = $output->get_requestorigin();
-        $log->ip = $output->get_requestip();
-        $log->realuserid = $output->get_realuser();
+        $data['origin'] = $output->get_requestorigin();
+        $data['ip'] = $output->get_requestip();
+        $data['realuserid'] = $output->get_realuser();
+
+        switch ($format) {
+            case self::FORMAT_HTML:
+                $log = (object)$data;
+                break;
+            case self::FORMAT_JSON:
+                $log = new \stdClass();
+                foreach ($data as $property => $value) {
+                    if (is_numeric($value)) {
+                        $log->{$property} = $value;
+                    } else {
+                        $log->{$property} = json_encode($value);
+                    }
+                }
+                break;
+            default:
+                $log = (object)$data;
+                break;
+        }
 
         return $log;
     }

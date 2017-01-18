@@ -73,7 +73,7 @@ class renderer extends \plugin_renderer_base {
      * @return string
      */
     public function render_event(\logstore_file\output\event $event) {
-        $data = $event->export_for_template($this);
+        $data = $event->export_for_template($this, $event::FORMAT_JSON);
         return $this->render_from_template('logstore_file/file_log', $data);
     }
 }
