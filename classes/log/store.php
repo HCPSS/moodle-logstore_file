@@ -25,6 +25,8 @@
 
 namespace logstore_file\log;
 
+use logstore_file\output\event;
+
 defined('MOODLE_INTERNAL') || die();
 
 /**
@@ -37,7 +39,8 @@ defined('MOODLE_INTERNAL') || die();
  */
 class store implements \tool_log\log\writer {
     use \tool_log\helper\store,
-        \tool_log\helper\reader;
+        \tool_log\helper\reader,
+        \tool_log\helper\buffered_writer;
 
     /**
      * Contruct the logstore.
@@ -61,34 +64,48 @@ class store implements \tool_log\log\writer {
     }
 
     /**
-     * Write an event
+     * Write the buffered events
      *
-     * @see \tool_log\log\writer::write()
-     * @param \core\event\base $event
+     * @param \core\event\base[] $events The buffered events.
      * @global \moodle_page $PAGE
+     * @see \tool_log\helper\buffered_writer::flush()
      */
-    public function write(\core\event\base $event) {
+    private function insert_event_entries(array $events) {
         global $PAGE;
 
         $logrenderer = $PAGE->get_renderer('logstore_file', 'log');
-        $log         = new \logstore_file\output\event($event);
         $logfile     = $this->get_config('log_location', '/var/log/moodle.log');
-        $output      = $logrenderer->render($log);
 
-        // This doesn't seem right. The new line should be part of the template,
-        // but I could not figure out how to get mustache to allow me to keep
-        // a new line character.
-        $output .= "\n";
+        $output = '';
+        foreach ($events as $data) {
+            $event = new event();
+
+            $event
+                ->set_action($data['action'])
+                ->set_anonymous($data['anonymous'])
+                ->set_component($data['component'])
+                ->set_contextid($data['contextid'])
+                ->set_contextinstanceid($data['contextinstanceid'])
+                ->set_contextlevel($data['contextlevel'])
+                ->set_courseid($data['courseid'])
+                ->set_crud($data['crud'])
+                ->set_edulevel($data['edulevel'])
+                ->set_eventname($data['eventname'])
+                ->set_ip($data['ip'])
+                ->set_objectid($data['objectid'])
+                ->set_objecttable($data['objecttable'])
+                ->set_origin($data['origin'])
+                ->set_other(unserialize($data['other']))
+                ->set_realuserid($data['realuserid'])
+                ->set_relateduserid($data['relateduserid'])
+                ->set_target($data['target'])
+                ->set_timecreated($data['timecreated'])
+                ->set_userid($data['userid']);
+
+            $output .= $logrenderer->render($event) . "\n";
+        }
 
         file_put_contents($logfile, $output, FILE_APPEND | LOCK_EX);
-    }
-
-    /**
-     * Notify the log store that we are not going to write to it anymore.
-     */
-    public function dispose() {
-        // I don't think the log store cares.
-        return;
     }
 
     /**

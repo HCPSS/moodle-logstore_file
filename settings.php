@@ -34,4 +34,11 @@ if ($hassiteconfig) {
         new lang_string('log_location_help', 'logstore_file'),
         '/var/log/moodle.log'
     ));
+
+    $settings->add(new admin_setting_configtext(
+        'logstore_file/buffersize',
+        new lang_string('buffersize', 'logstore_file'),
+        new lang_string('buffersize_help', 'logstore_file'),
+        50
+    ));
 }

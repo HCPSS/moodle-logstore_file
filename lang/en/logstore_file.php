@@ -28,3 +28,5 @@ $string['pluginname_desc'] = 'File log settings';
 $string['log_location'] = 'Log location';
 $string['log_location_help'] = 'Make sure the file exists and is writable by Moodle.';
 $string['validateerror'] = '{$a} does not exist or is not writable.';
+$string['buffersize'] = 'Buffer size';
+$string['buffersize_help'] = 'Number of log entries inserted in one batch database operation, which improves performance.';
