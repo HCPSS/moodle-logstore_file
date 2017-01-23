@@ -29,4 +29,4 @@ $plugin->version = 2017011200;
 $plugin->requires = 2016031000;
 $plugin->component = 'logstore_file';
 $plugin->maturity = MATURITY_ALPHA;
-$plugin->release = '0.0.1';
+$plugin->release = '0.1.0';
