@@ -15,40 +15,63 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Contains the custom configdirectory.
+ * Fixtures for file log storage testing
  *
  * @package    logstore_file
  * @copyright  2017 Howard County Public School System (based on standard log store from Petr Skoda)
  * @author     Brendan Anderson <brendan_anderson@hcpss.org>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-namespace logstore_file\admin\setting;
+namespace logstore_file\event;
 
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * Custom configdirectory.
+ * Fixtures for file log storage testing
  *
  * @package    logstore_file
  * @copyright  2017 Howard County Public School System (based on standard log store from Petr Skoda)
  * @author     Brendan Anderson <brendan_anderson@hcpss.org>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class configdirectory extends \admin_setting_configdirectory {
+class unittest_executed extends \core\event\base {
 
     /**
-     * Validate the data.
+     * Get the event name.
      *
-     * @param string $data
-     * @return boolean|string
+     * @return string
      */
-    public function validate($data) {
-        if (!is_writeable($data)) {
-            return get_string('validateerror', 'logstore_file', $data);
-        }
-
-        return true;
+    public static function get_name() {
+        return 'xxx';
     }
 
+    /**
+     * Get the event description.
+     * {@inheritDoc}
+     * @see \core\event\base::get_description()
+     */
+    public function get_description() {
+        return 'yyy';
+    }
+
+    /**
+     * Initialize the event.
+     * {@inheritDoc}
+     * @see \core\event\base::init()
+     */
+    protected function init() {
+        $this->data['crud'] = 'u';
+        $this->data['edulevel'] = self::LEVEL_PARTICIPATING;
+    }
+
+    /**
+     * Get the event URL.
+     * {@inheritDoc}
+     * @see \core\event\base::get_url()
+     */
+    public function get_url() {
+        return new \moodle_url('/somepath/somefile.php', array(
+            'id' => $this->data['other']['sample']
+        ));
+    }
 }

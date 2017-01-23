@@ -16,17 +16,15 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Translations.
+ * Contains the renderable event..
  *
  * @package    logstore_file
- * @copyright  2017 Howard County Public School System
+ * @copyright  2017 Howard County Public School System (based on standard log store from Petr Skoda)
  * @author     Brendan Anderson <brendan_anderson@hcpss.org>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 namespace logstore_file\output;
-
-use core\event\base as baseevent;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -34,7 +32,7 @@ defined('MOODLE_INTERNAL') || die();
  * Event renderable.
  *
  * @package    logstore_file
- * @copyright  2017 Howard County Public School System
+ * @copyright  2017 Howard County Public School System (based on standard log store from Petr Skoda)
  * @author     Brendan Anderson <brendan_anderson@hcpss.org>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

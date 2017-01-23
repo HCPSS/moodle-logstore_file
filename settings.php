@@ -18,7 +18,7 @@
  * Log settings.
  *
  * @package    logstore_file
- * @copyright  2017 Howard County Public School System
+ * @copyright  2017 Howard County Public School System (based on standard log store from Petr Skoda)
  * @author     Brendan Anderson <brendan_anderson@hcpss.org>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
